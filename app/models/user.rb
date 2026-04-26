@@ -1,12 +1,8 @@
 # frozen_string_literal: true
 
-class User
-  attr_reader :name, :age
-
-  def initialize(name:, age:)
-    @name = name
-    @age = age
-  end
+class User < ApplicationRecord
+  validates :name, presence: true
+  validates :age, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
   def adult?
     age >= 18

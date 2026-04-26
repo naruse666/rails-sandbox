@@ -1,28 +1,45 @@
-# frozen_string_literal: true
-
 require 'rails_helper'
 
-RSpec.describe User do
-  let(:name) { 'Alice' }
-  let(:age) { 20 }
-  subject(:user) { User.new(name: name, age: age) }
+RSpec.describe User, type: :model do
+  # build -> DB保存しない
+  # create -> DB保存
+  subject(:user) { build(:user) }
 
-  describe '#greet' do
-    it 'Hello + 名前の文字列を返す' do
-      expect(user.greet).to eq 'Hello, Alice!'
+  describe 'validation' do
+    context '正常' do
+      it 'valid' do
+        expect(user).to be_valid
+      end
+    end
+
+    context 'nameが空' do
+      let(:user) { build(:user, name: nil) }
+
+      it 'invalid' do
+        expect(user).not_to be_valid
+      end
+    end
+
+    context 'ageが負数' do
+      let(:user) { build(:user, age: -1) }
+
+      it 'invalid' do
+        expect(user).not_to be_valid
+      end
     end
   end
 
   describe '#adult?' do
     context '18歳以上の場合' do
-      let(:age) { 18 }
+      let(:user) { build(:user, age: 18) }
 
       it 'trueを返す' do
         expect(user.adult?).to be true
       end
     end
+
     context '17歳以下の場合' do
-      let(:age) { 17 }
+      let(:user) { build(:user, age: 17) }
 
       it 'falseを返す' do
         expect(user.adult?).to be false
