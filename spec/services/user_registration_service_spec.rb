@@ -4,8 +4,8 @@ require 'rails_helper'
 
 RSpec.describe UserRegistrationService do
   describe '#call' do
-    let(:mailer_double) { double('mailer') }
-    let(:message_double) { double('message') }
+    let(:mailer_double) { instance_double(UserMailer) }
+    let(:message_double) { double(Mail::Message) }
 
     before do
       allow(mailer_double).to receive(:welcome_email).and_return(message_double)
