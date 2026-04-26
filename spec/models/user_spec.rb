@@ -46,4 +46,17 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe '.adults' do
+    context 'DBに大人と未成年が混在する場合' do
+      # let! は即時評価
+      let!(:adult) { create(:user, age: 18) }
+      let!(:minor) { create(:user, age: 17) }
+
+      it '18歳以上を返す' do
+        expect(User.adults).to include(adult)
+        expect(User.adults).not_to include(minor)
+      end
+    end
+  end
 end
