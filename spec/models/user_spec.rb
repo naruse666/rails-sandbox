@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe User do
   let(:name) { 'Alice' }
   let(:age) { 20 }
-  let(:user) { User.new(name: name, age: age) }
+  subject(:user) { User.new(name: name, age: age) }
 
   describe '#greet' do
     it 'Hello + 名前の文字列を返す' do
