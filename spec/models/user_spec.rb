@@ -39,4 +39,10 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe '#greet' do
+    it 'Hello + nameを返す' do
+      expect(user.greet).to eq 'Hello, Alice!'
+    end
+  end
 end
