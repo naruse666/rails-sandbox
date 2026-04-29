@@ -32,7 +32,7 @@ RSpec.describe 'Users API', type: :request do
       it '422を返す' do
         post '/users', params: params
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end
