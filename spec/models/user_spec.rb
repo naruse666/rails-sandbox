@@ -27,7 +27,7 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe '.adults' do
+  describe '.adults', :slow do
     context 'DBに大人と未成年が混在する場合' do
       # let! は即時評価
       let!(:adult) { create(:user, age: 18) }
