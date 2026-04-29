@@ -76,3 +76,5 @@ gem "webmock", "~> 3.26"
 gem "database_cleaner-active_record", "~> 2.2"
 
 gem "simplecov", "~> 0.22.0"
+
+gem "timecop", "~> 0.9.11"

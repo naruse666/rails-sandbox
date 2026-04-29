@@ -13,4 +13,15 @@ class User < ApplicationRecord
   def greet
     "Hello, #{name}!"
   end
+
+  def greeting_message
+    hour = Time.current.hour
+    if hour < 12
+      "#{name}, おはよう"
+    elsif hour < 18
+      "#{name}, こんにちは"
+    else
+      "#{name}, こんばんは"
+    end
+  end
 end
