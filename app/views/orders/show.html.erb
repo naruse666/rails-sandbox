@@ -1,0 +1,33 @@
+<h1>注文 #<%= @order.id %></h1>
+
+<p>ステータス: <%= @order.status_label %></p>
+<p>注文日: <%= @order.created_at.strftime("%Y/%m/%d %H:%M") %></p>
+
+<h2>配送先</h2>
+<p><%= @order.address.full_address %></p>
+
+<h2>注文内容</h2>
+<table>
+  <thead>
+    <tr><th>商品</th><th>単価</th><th>数量</th><th>小計</th></tr>
+  </thead>
+  <tbody>
+    <% @order.order_items.includes(:product).each do |item| %>
+      <tr>
+        <td><%= item.product.name %></td>
+        <td>¥<%= item.price_cents / 100 %></td>
+        <td><%= item.quantity %></td>
+        <td>¥<%= item.subtotal_cents / 100 %></td>
+      </tr>
+    <% end %>
+  </tbody>
+  <tfoot>
+    <tr><td colspan="3">合計</td><td>¥<%= @order.total_cents / 100 %></td></tr>
+  </tfoot>
+</table>
+
+<% if @order.cancellable? %>
+  <%= button_to "注文をキャンセル", cancel_order_path(@order), method: :post, data: { confirm: "本当にキャンセルしますか?" } %>
+<% end %>
+
+<p><%= link_to "注文履歴に戻る", orders_path %></p>

@@ -1,0 +1,28 @@
+<h1>商品一覧</h1>
+<% if Current.user %>
+  <p>こんにちは、<%= Current.user.email_address %>さん</p>
+  <%= link_to "カートを見る", cart_path %> |
+  <%= link_to '注文履歴', orders_path %>
+  <%= button_to "ログアウト", session_path, method: :delete %>
+<% else %>
+  <%= link_to "ログイン", new_session_path %> /
+  <%= link_to "新規登録", new_registration_path %>
+<% end %>
+
+<hr>
+
+<ul>
+  <% @products.each do |product| %>
+    <li>
+      <%= link_to product.name, product_path(product) %>
+      -
+      <%# 伏線: 価格表示ロジックがビューに散在する。Week 8 で Decorator/Value Object に切り出す予定 %>
+      ¥<%= product.price_cents / 100 %>
+      <% if product.stock > 0 %>
+        (在庫: <%= product.stock %>)
+      <% else %>
+        (在庫切れ)
+      <% end %>
+    </li>
+  <% end %>
+</ul>

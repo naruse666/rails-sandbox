@@ -1,0 +1,29 @@
+<%= form_with model: address, url: url, local: true do |f| %>
+  <% if address.errors.any? %>
+    <div>
+      <% address.errors.full_messages.each do |msg| %>
+        <p><%= msg %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :postal_code, "郵便番号" %>
+    <%= f.text_field :postal_code %>
+  </div>
+  <div>
+    <%= f.label :prefecture, "都道府県" %>
+    <%= f.text_field :prefecture %>
+  </div>
+  <div>
+    <%= f.label :city, "市区町村" %>
+    <%= f.text_field :city %>
+  </div>
+  <div>
+    <%= f.label :street, "番地・建物名" %>
+    <%= f.text_field :street %>
+  </div>
+  <div>
+    <%= f.submit "保存" %>
+  </div>
+<% end %>

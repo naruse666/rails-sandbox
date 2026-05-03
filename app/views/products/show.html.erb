@@ -1,0 +1,23 @@
+<h1><%= @product.name %></h1>
+
+<p><%= @product.description %></p>
+
+<p>価格: ¥<%= @product.price_cents / 100 %></p>
+
+<% if @product.stock > 0 %>
+  <p>在庫: <%= @product.stock %></p>
+
+  <% if Current.user %>
+    <%= form_with url: cart_items_path, method: :post, local: true do |f| %>
+      <%= f.hidden_field :product_id, value: @product.id %>
+      <%= f.number_field :quantity, value: 1, min: 1, max: @product.stock %>
+      <%= f.submit "カートに追加" %>
+    <% end %>
+  <% else %>
+    <p><%= link_to "ログインして購入", new_session_path %></p>
+  <% end %>
+<% else %>
+  <p>在庫切れ</p>
+<% end %>
+
+<%= link_to "一覧に戻る", products_path %>
