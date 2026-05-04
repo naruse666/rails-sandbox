@@ -10,41 +10,6 @@ class Order < ApplicationRecord
 
   after_create :send_confirmation_email
 
-  def self.place!(user:, address:)
-    cart = user.cart
-    raise 'カートが空です' if cart.nil? || cart.cart_items.empty?
-
-    transaction do
-      cart.cart_items.includes(:product).each do |item|
-        raise "在庫が不足しています: #{item.product.name}" if item.product.stock < item.quantity
-      end
-
-      total = cart.cart_items.includes(:product).sum do |item|
-        item.product.price_cents * item.quantity
-      end
-
-      order = create!(
-        user: user,
-        address: address,
-        status: 'pending',
-        total_cents: total
-      )
-
-      cart.cart_items.includes(:product).each do |item|
-        order.order_items.create!(
-          product: item.product,
-          quantity: item.quantity,
-          price_cents: item.product.price_cents
-        )
-        item.product.update!(stock: item.product.stock - item.quantity)
-      end
-
-      cart.cart_items.destroy_all
-
-      order
-    end
-  end
-
   def cancellable?
     %w[pending paid].include?(status)
   end

@@ -15,9 +15,10 @@ class OrdersController < ApplicationController
     end
 
     begin
-      order = Order.place!(user: Current.user, address: address)
+      order = PlaceOrderService.call(user: Current.user, address: address)
       redirect_to order_path(order), notice: '注文が確定しました'
     rescue StandardError => e
+      Rails.logger.info(e.message)
       redirect_to cart_path, alert: e.message
     end
   end
