@@ -14,17 +14,6 @@ class Order < ApplicationRecord
     %w[pending paid].include?(status)
   end
 
-  def cancel!
-    raise 'この注文はキャンセルできません' unless cancellable?
-
-    transaction do
-      order_items.includes(:product).each do |item|
-        item.product.update!(stock: item.product.stock + item.quantity)
-      end
-      update!(status: 'cancelled')
-    end
-  end
-
   def status_label
     case status
     when 'pending' then '注文受付'

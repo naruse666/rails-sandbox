@@ -1,4 +1,7 @@
 class PlaceOrderService
+  class CartEmptyError < StandardError; end
+  class StockShortageError < StandardError; end
+
   def self.call(user:, address:)
     new(user: user, address: address).call
   end
@@ -17,21 +20,23 @@ class PlaceOrderService
       create_order!(total: total)
       create_order_items_and_decrement_stock!
       clear_cart!
-
-      @order
     end
+
+    ServiceResult.success(@order)
+  rescue CartEmptyError, StockShortageError => e
+    ServiceResult.failure(e.message)
   end
 
   private
 
   def load_cart!
     @cart = @user.cart
-    raise 'カートが空です' if @cart.nil? || @cart.cart_items.empty?
+    raise CartEmptyError, 'カートが空です' if @cart.nil? || @cart.cart_items.empty?
   end
 
   def validate_stock!
     @cart.cart_items.includes(:product).each do |item|
-      raise "在庫が不足しています: #{item.product.name}" if item.product.stock < item.quantity
+      raise StockShortageError, "在庫が不足しています: #{item.product.name}" if item.product.stock < item.quantity
     end
   end
 

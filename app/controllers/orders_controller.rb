@@ -14,23 +14,23 @@ class OrdersController < ApplicationController
       return
     end
 
-    begin
-      order = PlaceOrderService.call(user: Current.user, address: address)
-      redirect_to order_path(order), notice: '注文が確定しました'
-    rescue StandardError => e
-      Rails.logger.info(e.message)
-      redirect_to cart_path, alert: e.message
+    result = PlaceOrderService.call(user: Current.user, address: address)
+
+    if result.success?
+      redirect_to order_path(result.value), notice: '注文が確定しました'
+    else
+      redirect_to cart_path, alert: result.error
     end
   end
 
   def cancel
     order = Current.user.orders.find(params[:id])
 
-    begin
-      order.cancel!
+    result = CancelOrderService.call(order: order)
+    if result.success?
       redirect_to order_path(order), notice: '注文をキャンセルしました'
-    rescue StandardError => e
-      redirect_to order_path(order), alert: e.message
+    else
+      redirect_to order_path(order), alert: result.error
     end
   end
 end
