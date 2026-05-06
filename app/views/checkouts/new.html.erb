@@ -1,0 +1,51 @@
+<h1>注文確定</h1>
+
+<%= form_with model: @checkout, url: checkout_path, local: true do |f| %>
+  <% if @checkout.errors.any? %>
+    <div>
+      <% @checkout.errors.full_messages.each do |msg| %>
+        <p><%= msg %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <h2>配送先</h2>
+  <div>
+    <%= f.label :postal_code, "郵便番号" %>
+    <%= f.text_field :postal_code %>
+  </div>
+  <div>
+    <%= f.label :prefecture, "都道府県" %>
+    <%= f.text_field :prefecture %>
+  </div>
+  <div>
+    <%= f.label :city, "市区町村" %>
+    <%= f.text_field :city %>
+  </div>
+  <div>
+    <%= f.label :street, "番地・建物名" %>
+    <%= f.text_field :street %>
+  </div>
+
+  <h2>注文内容</h2>
+  <table>
+    <% @cart.cart_items.includes(:product).each do |item| %>
+      <tr>
+        <td><%= item.product.name %></td>
+        <td>¥<%= item.product.price_cents / 100 %></td>
+        <td><%= item.quantity %></td>
+        <td>¥<%= item.subtotal_cents / 100 %></td>
+      </tr>
+    <% end %>
+    <tr>
+      <td colspan="3">合計</td>
+      <td>¥<%= @cart.total_cents / 100 %></td>
+    </tr>
+  </table>
+
+  <div>
+    <%= f.submit "注文を確定する" %>
+  </div>
+<% end %>
+
+<p><%= link_to "カートに戻る", cart_path %></p>

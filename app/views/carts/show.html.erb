@@ -40,13 +40,7 @@
     </tfoot>
   </table>
 
-  <%# 注文確定ボタンは Step 5 で実装 %>
-  <% if Current.user.address %>
-    <%= button_to "注文を確定する", orders_path, method: :post %>
-    <p>配送先: <%= Current.user.address.full_address %> (<%= link_to "変更", edit_address_path %>)</p>
-  <% else %>
-    <p><%= link_to "配送先を登録して注文に進む", new_address_path %></p>
-  <% end %>
+  <%= link_to "注文確定へ進む", new_checkout_path %>
 <% end %>
 
 <p><%= link_to "商品一覧に戻る", products_path %></p>

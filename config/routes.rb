@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       post :cancel
     end
   end
+  resource :checkout, only: %i[new create]
   # Defines the root path route ("/")
   # root 'articles#index'
 
