@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    resources :products, only: %i[index edit update]
+  end
   resource :session
   resources :passwords, param: :token
   resources :users, only: %i[index show create]

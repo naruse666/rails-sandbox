@@ -1,0 +1,53 @@
+<h1>商品管理</h1>
+
+<%= form_with url: admin_products_path, method: :get, local: true do |f| %>
+  <div>
+    <%= f.label :keyword, "キーワード" %>
+    <%= f.text_field :keyword, value: params[:keyword] %>
+  </div>
+  <div>
+    <%= f.label :min_price, "最低価格(円)" %>
+    <%= f.number_field :min_price, value: params[:min_price] %>
+    <%= f.label :max_price, "最高価格(円)" %>
+    <%= f.number_field :max_price, value: params[:max_price] %>
+  </div>
+  <div>
+    <%= f.label :stock_status, "在庫状態" %>
+    <%= f.select :stock_status,
+                 [["すべて", ""], ["在庫あり", "in_stock"], ["在庫切れ", "out_of_stock"]],
+                 selected: params[:stock_status] %>
+  </div>
+  <div>
+    <%= f.label :sort, "並び順" %>
+    <%= f.select :sort,
+                 [["新着順", ""], ["価格が安い順", "price_asc"], ["価格が高い順", "price_desc"], ["在庫が多い順", "stock_desc"]],
+                 selected: params[:sort] %>
+  </div>
+  <%= f.submit "検索" %>
+  <%= link_to "クリア", admin_products_path %>
+<% end %>
+
+<hr>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>商品名</th>
+      <th>価格</th>
+      <th>在庫</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @products.each do |product| %>
+      <tr>
+        <td><%= product.id %></td>
+        <td><%= product.name %></td>
+        <td>¥<%= product.price_cents / 100 %></td>
+        <td><%= product.stock %></td>
+        <td><%= link_to "編集", edit_admin_product_path(product) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

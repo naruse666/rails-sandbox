@@ -1,0 +1,33 @@
+<h1>商品編集</h1>
+
+<%= form_with model: [:admin, @product], local: true do |f| %>
+  <% if @product.errors.any? %>
+    <div>
+      <% @product.errors.full_messages.each do |msg| %>
+        <p><%= msg %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :name, "商品名" %>
+    <%= f.text_field :name %>
+  </div>
+  <div>
+    <%= f.label :description, "説明" %>
+    <%= f.text_area :description %>
+  </div>
+  <div>
+    <%= f.label :price_cents, "価格(円 × 100)" %>
+    <%= f.number_field :price_cents %>
+  </div>
+  <div>
+    <%= f.label :stock, "在庫数" %>
+    <%= f.number_field :stock %>
+  </div>
+  <div>
+    <%= f.submit "更新" %>
+  </div>
+<% end %>
+
+<p><%= link_to "一覧に戻る", admin_products_path %></p>
