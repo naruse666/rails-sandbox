@@ -14,7 +14,7 @@
 
 <dl>
   <dt>総売上</dt>
-  <dd>¥<%= @report[:total_sales_cents] / 100 %></dd>
+  <dd><%= @report[:total_sales].formatted %></dd>
   <dt>注文件数</dt>
   <dd><%= @report[:order_count] %>件</dd>
 </dl>
@@ -28,10 +28,10 @@
       <tr><th>商品名</th><th>売上</th></tr>
     </thead>
     <tbody>
-      <% @report[:sales_by_product].each do |product_name, total_cents| %>
+      <% @report[:sales_by_product].each do |product_name, total_money| %>
         <tr>
           <td><%= product_name %></td>
-          <td>¥<%= total_cents / 100 %></td>
+          <td><%= total_money.formatted %></td>
         </tr>
       <% end %>
     </tbody>

@@ -32,14 +32,14 @@
     <% @cart.cart_items.includes(:product).each do |item| %>
       <tr>
         <td><%= item.product.name %></td>
-        <td>¥<%= item.product.price_cents / 100 %></td>
+        <td><%= item.product.price.formatted %></td>
         <td><%= item.quantity %></td>
-        <td>¥<%= item.subtotal_cents / 100 %></td>
+        <td><%= item.subtotal.formatted %></td>
       </tr>
     <% end %>
     <tr>
       <td colspan="3">合計</td>
-      <td>¥<%= @cart.total_cents / 100 %></td>
+      <td><%= @cart.total.formatted %></td>
     </tr>
   </table>
 

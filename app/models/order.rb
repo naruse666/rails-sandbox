@@ -24,6 +24,10 @@ class Order < ApplicationRecord
     end
   end
 
+  def total
+    Money.new(total_cents)
+  end
+
   private
 
   def send_confirmation_email

@@ -2,7 +2,7 @@
 
 <p><%= @product.description %></p>
 
-<p>価格: ¥<%= @product.price_cents / 100 %></p>
+<p>価格: <%= @product.price.formatted%></p>
 
 <% if @product.stock > 0 %>
   <p>在庫: <%= @product.stock %></p>

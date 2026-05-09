@@ -8,6 +8,10 @@ class Cart < ApplicationRecord
     cart_items.includes(:product).sum { |item| item.product.price_cents * item.quantity }
   end
 
+  def total
+    cart_items.includes(:product).sum(Money.zero) { |item| item.subtotal }
+  end
+
   def total_quantity
     cart_items.sum(:quantity)
   end

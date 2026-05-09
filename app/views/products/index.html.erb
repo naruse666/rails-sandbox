@@ -17,7 +17,7 @@
       <%= link_to product.name, product_path(product) %>
       -
       <%# 伏線: 価格表示ロジックがビューに散在する。Week 8 で Decorator/Value Object に切り出す予定 %>
-      ¥<%= product.price_cents / 100 %>
+      <%= product.price.formatted %>
       <% if product.stock > 0 %>
         (在庫: <%= product.stock %>)
       <% else %>

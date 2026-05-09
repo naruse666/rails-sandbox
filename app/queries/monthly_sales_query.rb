@@ -10,7 +10,7 @@ class MonthlySalesQuery
 
   def call
     {
-      total_sales_cents: total_sales_cents,
+      total_sales: Money.new(total_sales_cents),
       order_count: order_count,
       sales_by_product: sales_by_product
     }
@@ -38,11 +38,12 @@ class MonthlySalesQuery
   end
 
   def sales_by_product
-    OrderItem.joins(:order, :product)
-             .where(order: base_scope)
-             .group('products.name')
-             .sum('order_items.price_cents * order_items.quantity')
-             .sort_by { |_name, total| -total }
-             .to_h
+    raw = OrderItem.joins(:order, :product)
+                   .where(order: base_scope)
+                   .group('products.name')
+                   .sum('order_items.price_cents * order_items.quantity')
+                   .sort_by { |_name, total| -total }
+                   .to_h
+    raw.transform_values { |cents| Money.new(cents) }
   end
 end

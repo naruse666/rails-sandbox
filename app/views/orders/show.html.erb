@@ -15,14 +15,14 @@
     <% @order.order_items.includes(:product).each do |item| %>
       <tr>
         <td><%= item.product.name %></td>
-        <td>¥<%= item.price_cents / 100 %></td>
+        <td><%= item.price.formatted %></td>
         <td><%= item.quantity %></td>
-        <td>¥<%= item.subtotal_cents / 100 %></td>
+        <td><%= item.subtotal.formatted%></td>
       </tr>
     <% end %>
   </tbody>
   <tfoot>
-    <tr><td colspan="3">合計</td><td>¥<%= @order.total_cents / 100 %></td></tr>
+    <tr><td colspan="3">合計</td><td><%= @order.total.formatted%></td></tr>
   </tfoot>
 </table>
 

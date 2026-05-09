@@ -17,15 +17,14 @@
       <% @cart.cart_items.includes(:product).each do |item| %>
         <tr>
           <td><%= item.product.name %></td>
-          <%# 伏線: ここでも価格表示が散在 %>
-          <td>¥<%= item.product.price_cents / 100 %></td>
+          <td><%= item.product.price.formatted %></td>
           <td>
             <%= form_with url: cart_item_path(item), method: :patch, local: true do |f| %>
               <%= f.number_field :quantity, value: item.quantity, min: 1, max: item.product.stock %>
               <%= f.submit "更新" %>
             <% end %>
           </td>
-          <td>¥<%= item.subtotal_cents / 100 %></td>
+          <td><%= item.subtotal.formatted%></td>
           <td>
             <%= button_to "削除", cart_item_path(item), method: :delete %>
           </td>
@@ -35,7 +34,7 @@
     <tfoot>
       <tr>
         <td colspan="3">合計数量: <%= @cart.total_quantity %></td>
-        <td colspan="2">合計金額: ¥<%= @cart.total_cents / 100 %></td>
+        <td colspan="2">合計金額: <%= @cart.total.formatted%></td>
       </tr>
     </tfoot>
   </table>
