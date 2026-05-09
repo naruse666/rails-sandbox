@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   namespace :admin do
+    resource :sales_report, only: [:show]
     resources :products, only: %i[index edit update]
   end
   resource :session

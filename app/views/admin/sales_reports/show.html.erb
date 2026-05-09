@@ -1,0 +1,39 @@
+<h1>月次売上レポート</h1>
+
+<%= form_with url: admin_sales_report_path, method: :get, local: true do |f| %>
+  <%= f.label :year, "年" %>
+  <%= f.number_field :year, value: @year %>
+  <%= f.label :month, "月" %>
+  <%= f.number_field :month, value: @month, min: 1, max: 12 %>
+  <%= f.submit "表示" %>
+<% end %>
+
+<hr>
+
+<h2><%= @year %>年<%= @month %>月の売上</h2>
+
+<dl>
+  <dt>総売上</dt>
+  <dd>¥<%= @report[:total_sales_cents] / 100 %></dd>
+  <dt>注文件数</dt>
+  <dd><%= @report[:order_count] %>件</dd>
+</dl>
+
+<h3>商品別売上</h3>
+<% if @report[:sales_by_product].empty? %>
+  <p>データがありません</p>
+<% else %>
+  <table>
+    <thead>
+      <tr><th>商品名</th><th>売上</th></tr>
+    </thead>
+    <tbody>
+      <% @report[:sales_by_product].each do |product_name, total_cents| %>
+        <tr>
+          <td><%= product_name %></td>
+          <td>¥<%= total_cents / 100 %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
