@@ -3,7 +3,7 @@ class Address < ApplicationRecord
 
   validates :postal_code, :prefecture, :city, :street, presence: true
 
-  def full_address
-    "#{postal_code} #{prefecture}#{city}#{street}"
+  def decorate
+    AddressDecorator.new(self)
   end
 end

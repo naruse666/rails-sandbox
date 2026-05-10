@@ -14,18 +14,12 @@ class Order < ApplicationRecord
     %w[pending paid].include?(status)
   end
 
-  def status_label
-    case status
-    when 'pending' then '注文受付'
-    when 'paid' then '支払い済み'
-    when 'shipped' then '発送済み'
-    when 'completed' then '完了'
-    when 'cancelled' then 'キャンセル'
-    end
-  end
-
   def total
     Money.new(total_cents)
+  end
+
+  def decorate
+    OrderDecorator.new(self)
   end
 
   private
