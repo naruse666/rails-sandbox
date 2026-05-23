@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include TimestampFormattable
+
   has_secure_password
   has_many :sessions, dependent: :destroy
   has_one :cart, dependent: :destroy

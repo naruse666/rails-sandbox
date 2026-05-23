@@ -22,6 +22,8 @@ class PlaceOrderService
       clear_cart!
     end
 
+    send_confirmation_email
+
     ServiceResult.success(@order)
   rescue CartEmptyError, StockShortageError => e
     ServiceResult.failure(e.message)
@@ -68,5 +70,9 @@ class PlaceOrderService
 
   def clear_cart!
     @cart.cart_items.destroy_all
+  end
+
+  def send_confirmation_email
+    Rails.logger.info "[ORDER ##{@order.id}] 確認メールを送信(dummy)"
   end
 end
