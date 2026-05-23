@@ -16,7 +16,7 @@ class CancelOrderService
 
     Order.transaction do
       revert_stock!
-      @order.update!(status: 'cancelled')
+      @order.transition_to!('cancelled')
     end
 
     ServiceResult.success
