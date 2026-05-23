@@ -78,3 +78,5 @@ gem "database_cleaner-active_record", "~> 2.2"
 gem "simplecov", "~> 0.22.0"
 
 gem "timecop", "~> 0.9.11"
+
+gem "solid_queue", "~> 1.4"

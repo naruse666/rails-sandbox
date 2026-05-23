@@ -73,6 +73,6 @@ class PlaceOrderService
   end
 
   def send_confirmation_email
-    Rails.logger.info "[ORDER ##{@order.id}] 確認メールを送信(dummy)"
+    SendOrderConfirmationEmailJob.perform_later(@order.id)
   end
 end
